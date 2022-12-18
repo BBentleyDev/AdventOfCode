@@ -10,23 +10,37 @@ const input = readFileSync(
 const instructions = input.splice(10);
 let stacks = require('./stacks');
 
-
 const instructionNumbers = instructions.map( command => command.split(' ').filter( char => !isNaN(char)).map( number => +number) )
 
-instructionNumbers.forEach ( instruction => {
-  let [pop, from, to] = instruction
+
+instructionNumbers.forEach (instruction => {
+  let [pop,from,to] = instruction
+  to--
+  from--
   
   for (let i = 0; i < pop; i++) {
-    const crate = stacks[from].pop()
+    let crate = stacks[from].pop()
     stacks[to].push(crate)
   }
   
 })
 
-let topCrates = []
+const topOfStacks = stacks.map(stack => stack.pop()).reduce( (a,c) => a + c)
 
-for (let i = 0; i < stacks.length; i++) {
-  topCrates.push(stacks[i].pop())
-}
+// Print answer to part one.
+console.log(topOfStacks);
 
-console.log(topCrates.join(''))
+// Part 2
+instructionNumbers.forEach(instruction => {
+  let [pop,from,to] = instruction
+  from--
+  to--
+
+  let crates = stacks[from].splice(-pop);
+  stacks[to].splice(stacks[to].length, 0, ...crates);
+});
+
+const topOfStacks2 = stacks.map(stack => stack.pop()).reduce((a, c) => a + c);
+
+// Print answer to part two.
+console.log(topOfStacks2);
