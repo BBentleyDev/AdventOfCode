@@ -43,7 +43,7 @@ console.log(prioritySums)
 
 //PART 2
 
-//array for storing for badge for each group of 3 elves
+//array for storing badge for each group of 3 elves
 let badges = []
 
 //iterate through elves, breaking them into groups of 3, find common item between all 3 elves
