@@ -19,10 +19,10 @@ for (let i = 0; i < input.length; i++) {
     map[char] = true
   }
 
-  //find the number of unique characters in the chunk
+  //find number of keys in our map
   let mapSize = Object.keys(map).length
 
-  //if length of map is 4, all chars are unique and we have found our start pattern 
+  //if mapSize is 4, all chars are unique and we have found our start pattern 
   //return length plus index of element chunk started at
   if (mapSize === 4) {
     console.log(i + mapSize)
@@ -31,7 +31,7 @@ for (let i = 0; i < input.length; i++) {
 }
 
 //Part 2
-//Same as above, but chunk size is 14 and using the Set object to determine number of unique characters
+//Same as above, but chunk size is 14 and instead using the Set object to determine number of unique characters
 for (let i = 0; i < input.length; i++) {
   
   let chunk = input.slice(i,i+14)
