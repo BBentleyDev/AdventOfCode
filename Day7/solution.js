@@ -8,14 +8,14 @@ const input = readFileSync(
 
 const lines = input.split('\n');
 
-// Create a store for individual directory sizes.
+//create a store for individual directory sizes
 let directories = [];
 
 function walkDirectory(lines) {
   let inDir = [];
   let depth = 0;
 
-  // Collect lines until directory exited ($ cd ..) to original depth.
+  //collect lines until directory exited to original depth
   lines.some(line => {
     if (line.substring(0, 4) === '$ cd' && line.substring(0, 7) !== '$ cd ..') depth++;
     if (line.substring(0, 7) === '$ cd ..') {
@@ -25,16 +25,16 @@ function walkDirectory(lines) {
     inDir.push(line);
   });
 
-  // Filter directory listing to just files, return filesize portion and tally.
+  //filter directory listing to just files, return filesize portion and total
   const size = inDir.map(item => parseInt(item.split(' ')[0])).filter(Number).reduce((a, c) => a + c);
   // console.log(size);
   return size;
 }
 
 lines.forEach((line, index, lines) => {
-  // When an ls is encountered, send all following lines to walker function (inefficient).
-  // Walker function returns cumulative size of all files in this directory and children.
-  // Push directory size to directories store.
+  //when an ls is encountered, send all following lines to walker function
+  //walker function returns total size of all files in this directory and children
+  //push directory size to directories store
   if (line.substring(0, 4) === '$ ls') {
     const remainingLines = lines.slice(++index);
     const dirSize = walkDirectory(remainingLines);
@@ -42,8 +42,8 @@ lines.forEach((line, index, lines) => {
   }
 });
 
-// Filter directories to all with total size under 100000 and tally.
-// Print answer to part one.
+//filter directories to all with total size under 100000 and total
+//print answer to part one
 const part1 = directories.filter(size => size <= 100000).reduce((a, c) => a + c);
 console.log(part1);
 
@@ -53,13 +53,13 @@ const usedSpace = directories[0];
 const unusedSpace = diskSize - usedSpace;
 const extraSpaceNeeded = requiredSpace - unusedSpace;
 
-// Remove root from directories store as we can't delete everything.
+//remove root from directories store as we can't delete everything
 directories.shift();
 
-// Filter directories which are candidates for deletion.
+//filter directories which are candidates for deletion
 const possibleDirs = directories.filter(size => size >= extraSpaceNeeded);
 
-// Find the smallest possible candidate directory.
-// Print answer to part two.
+//find the smallest possible candidate directory
+//print answer to part two
 const smallest = Math.min(...possibleDirs);
 console.log(smallest);
